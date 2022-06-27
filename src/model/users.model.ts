@@ -3,10 +3,10 @@ export interface IUsers {
     name: string;
     username: string;
     email: string;
-    address: IAddress;
-    phone: string;
-    website: string;
-    company: ICompany;
+    address?: IAddress;
+    phone?: string;
+    website?: string;
+    company?: ICompany;
 }
 export interface IAddress {
     street: string;
