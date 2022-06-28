@@ -10,10 +10,11 @@
 }
 
 .App {
-    width: 400px;
+    width: 800px;
 }
 
 .user {
+    width: 400px;
     display: flex;
     justify-content: space-between;
     align-items: center;

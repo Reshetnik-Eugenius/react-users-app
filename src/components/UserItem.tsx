@@ -5,9 +5,8 @@ const UserItem = (props: any) => {
   return (
     <div className="user">
         <div className="user__content">
-            <strong>USER # id = {props.user.id}</strong>
+            <strong>USER # id = {props.number}</strong>
             <div>{props.user.name}</div>
-            <div>{props.user.username}</div>
             <div>{props.user.email}</div>
         </div>
         <div className="user__btns">
