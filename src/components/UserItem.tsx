@@ -1,4 +1,5 @@
 import React from 'react'
+import PButton from './UI/button/PButton';
 
 const UserItem = (props: any) => {
 
@@ -10,7 +11,7 @@ const UserItem = (props: any) => {
             <div>{props.user.email}</div>
         </div>
         <div className="user__btns">
-            <button>Delete</button>
+            <PButton onClick={() => props.remove(props.user)}>Delete</PButton>
         </div>
     </div>
   );
