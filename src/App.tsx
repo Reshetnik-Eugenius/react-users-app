@@ -1,6 +1,7 @@
 import React, { ChangeEvent, useMemo, useState } from "react";
 import PButton from "./components/UI/button/PButton";
 import PInput from "./components/UI/input/PInput";
+import PModal from "./components/UI/PModal/PModal";
 import PSelect from "./components/UI/select/PSelect";
 import UserAddForm from "./components/UserAddForm";
 import UserFilter from "./components/UserFilter";
@@ -18,7 +19,8 @@ function App() {
         { id: 2, name: 'Ervin Howell', email: 'Ahanna@melissa.tv' },
         { id: 3, name: 'Clementine Bauch', email: 'Nathan@yesenia.net' }
     ]);
-    const [filter, setFilter] = useState({sort:'', query:''})
+    const [filter, setFilter] = useState({sort:'', query:''}) 
+    const [modal, setModal] = useState(false)
 
     const sortedUsers = useMemo(()=>{
         console.log("sorted");
@@ -33,6 +35,7 @@ function App() {
 
     const createUser = (newUser: IVal) => {
         setUsers([...users, newUser])
+        setModal(false);
     }
     const removeUser = (user: IVal) => {
         setUsers(users.filter(p => p.id !== user.id))
@@ -40,8 +43,13 @@ function App() {
 
     return (
         <div className="App">
-            <UserAddForm create ={createUser}/>
-            
+            <PButton style={{marginTop: 30}} onClick={() => setModal(true)}>
+                ADD USER
+            </PButton>
+            <PModal visible={modal} setVisible={setModal}>
+                <UserAddForm create ={createUser}/>
+            </PModal>
+
             <hr style={{margin: '15px 0'}}/>
             <UserFilter 
                 filter={filter} 
