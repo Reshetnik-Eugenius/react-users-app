@@ -1,8 +1,10 @@
 import React from "react";
+import styles from "./PSelect.module.css"
 
 const PSelect = ({options, defaultValue, value, onChange}:any) => {
     return (
         <select
+            className={styles.pSel}
             value={value}
             onChange={event => onChange(event.target.value)}
         >

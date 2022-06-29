@@ -14,7 +14,7 @@ export interface IVal {
 function App() {
     const [users, setUsers] = useState<IVal[]>([
         { id: 1, name: 'Leanne Graham', email: 'Sincere@april.biz' },
-        { id: 2, name: 'Ervin Howell', email: 'Shanna@melissa.tv' },
+        { id: 2, name: 'Ervin Howell', email: 'Ahanna@melissa.tv' },
         { id: 3, name: 'Clementine Bauch', email: 'Nathan@yesenia.net' }
     ]);
     const [selectedSort, setSelectedSort] = useState('');
@@ -25,10 +25,10 @@ function App() {
         setUsers(users.filter(p => p.id !== user.id))
     }
     
-    const sortUsers = (sort: React.SetStateAction<string>) => {
-        setSelectedSort(sort);
-        setUsers([...users].sort((a, b) => a.localeCompare(b)))
-        // console.log(sort);
+    const sortUsers = (sortByValue: string) => {
+        setSelectedSort(sortByValue);
+        // [...users].sort((a:IVal,b:IVal)=>(a.name < b.name)?-1:1);
+        setUsers([...users].sort((a:any,b:any)=>(a[sortByValue].localeCompare(b[sortByValue]))));
     }
 
     return (
