@@ -47,11 +47,7 @@ function App() {
                 filter={filter} 
                 setFilter={setFilter}
             />
-
-            {sortedAndSearchedUsers.length !== 0
-                ? <UserList remove={removeUser} users={sortedAndSearchedUsers} title='List users:'/>
-                : <h1 style={{textAlign: "center"}}>Users not found!</h1>
-            }
+            <UserList remove={removeUser} users={sortedAndSearchedUsers} title='List users:'/>
         </div>
     );
 }
