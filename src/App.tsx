@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useMemo, useState } from "react";
 import PButton from "./components/UI/button/PButton";
 import PInput from "./components/UI/input/PInput";
 import PSelect from "./components/UI/select/PSelect";
@@ -18,6 +18,19 @@ function App() {
         { id: 3, name: 'Clementine Bauch', email: 'Nathan@yesenia.net' }
     ]);
     const [selectedSort, setSelectedSort] = useState('');
+    const [searchQuery, setSearchQuery] = useState('s');
+
+    const sortedUsers = useMemo(()=>{
+        console.log("sorted");
+        if(selectedSort) {
+            return [...users].sort((a:any,b:any)=>(a[selectedSort].localeCompare(b[selectedSort])));
+        }
+        return users;
+    },[selectedSort, users]);
+    const sortedAndSearchedUsers = useMemo(()=>{
+        return sortedUsers.filter(user => user.name.toLowerCase().includes(searchQuery));
+    },[searchQuery, sortedUsers])
+
     const createUser = (newUser: IVal) => {
         setUsers([...users, newUser])
     }
@@ -27,8 +40,6 @@ function App() {
     
     const sortUsers = (sortByValue: string) => {
         setSelectedSort(sortByValue);
-        // [...users].sort((a:IVal,b:IVal)=>(a.name < b.name)?-1:1);
-        setUsers([...users].sort((a:any,b:any)=>(a[sortByValue].localeCompare(b[sortByValue]))));
     }
 
     return (
@@ -37,6 +48,11 @@ function App() {
             
             <hr style={{margin: '15px 0'}}/>
             <div>
+                <PInput style={{width: '20%'}}
+                    value={searchQuery}
+                    onChange={(event: ChangeEvent<HTMLInputElement>) => setSearchQuery(event.target.value)}
+                    placeholder="Search"
+                />
                 <PSelect 
                     value={selectedSort}
                     onChange={sortUsers}
@@ -48,8 +64,8 @@ function App() {
                 />
             </div>
 
-            {users.length !== 0
-                ? <UserList remove={removeUser} users={users} title='List users:'/>
+            {sortedAndSearchedUsers.length !== 0
+                ? <UserList remove={removeUser} users={sortedAndSearchedUsers} title='List users:'/>
                 : <h1 style={{textAlign: "center"}}>Users not found!</h1>
             }
         </div>
