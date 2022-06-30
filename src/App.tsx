@@ -1,11 +1,10 @@
-import React, { ChangeEvent, useMemo, useState } from "react";
+import { useState } from "react";
 import PButton from "./components/UI/button/PButton";
-import PInput from "./components/UI/input/PInput";
 import PModal from "./components/UI/PModal/PModal";
-import PSelect from "./components/UI/select/PSelect";
 import UserAddForm from "./components/UserAddForm";
 import UserFilter from "./components/UserFilter";
 import UserList from "./components/UserList";
+import { useUsers } from "./hooks/useUser";
 import './styles/App.css'
 export interface IVal {
     id: number; 
@@ -20,18 +19,8 @@ function App() {
         { id: 3, name: 'Clementine Bauch', email: 'Nathan@yesenia.net' }
     ]);
     const [filter, setFilter] = useState({sort:'', query:''}) 
-    const [modal, setModal] = useState(false)
-
-    const sortedUsers = useMemo(()=>{
-        console.log("sorted");
-        if(filter.sort) {
-            return [...users].sort((a:any,b:any)=>(a[filter.sort].localeCompare(b[filter.sort])));
-        }
-        return users;
-    },[filter.sort, users]);
-    const sortedAndSearchedUsers = useMemo(()=>{
-        return sortedUsers.filter(user => user.name.toLowerCase().includes(filter.query));
-    },[filter.query, sortedUsers])
+    const [modal, setModal] = useState(false);
+    const sortedAndSearchedUsers = useUsers(users, filter.sort, filter.query);
 
     const createUser = (newUser: IVal) => {
         setUsers([...users, newUser])
