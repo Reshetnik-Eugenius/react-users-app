@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useState } from "react";
 import PButton from "./components/UI/button/PButton";
 import PModal from "./components/UI/PModal/PModal";
@@ -13,11 +14,7 @@ export interface IVal {
 }
 
 function App() {
-    const [users, setUsers] = useState<IVal[]>([
-        { id: 1, name: 'Leanne Graham', email: 'Sincere@april.biz' },
-        { id: 2, name: 'Ervin Howell', email: 'Ahanna@melissa.tv' },
-        { id: 3, name: 'Clementine Bauch', email: 'Nathan@yesenia.net' }
-    ]);
+    const [users, setUsers] = useState<IVal[]>([]);
     const [filter, setFilter] = useState({sort:'', query:''}) 
     const [modal, setModal] = useState(false);
     const sortedAndSearchedUsers = useUsers(users, filter.sort, filter.query);
@@ -26,12 +23,20 @@ function App() {
         setUsers([...users, newUser])
         setModal(false);
     }
+
+    async function fetchUsers(){
+        const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+        // console.log(response.data);
+        setUsers(response.data);
+    }
+
     const removeUser = (user: IVal) => {
         setUsers(users.filter(p => p.id !== user.id))
     }
 
     return (
         <div className="App">
+            <button onClick={fetchUsers}>GET USERS</button>
             <PButton style={{marginTop: 30}} onClick={() => setModal(true)}>
                 ADD USER
             </PButton>
