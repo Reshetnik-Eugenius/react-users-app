@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import UserService from "./API/UserService";
 import PButton from "./components/UI/button/PButton";
+import Loader from "./components/UI/Loader/Loader";
 import PModal from "./components/UI/PModal/PModal";
 import UserAddForm from "./components/UserAddForm";
 import UserFilter from "./components/UserFilter";
@@ -19,6 +20,7 @@ function App() {
     const [filter, setFilter] = useState({sort:'', query:''}) 
     const [modal, setModal] = useState(false);
     const sortedAndSearchedUsers = useUsers(users, filter.sort, filter.query);
+    const [isUsersLoading, setIsUsersLoading] = useState(false);
 
     useEffect(() => { 
         // console.log('useEffect');
@@ -31,9 +33,13 @@ function App() {
     }
 
     async function fetchUsers(){
-        const users = await UserService.getAll();
-        // console.log(response.data);
-        setUsers(users);
+        setIsUsersLoading(true);
+        setTimeout(async() => {
+            const users = await UserService.getAll();
+            // console.log(response.data);
+            setUsers(users);
+            setIsUsersLoading(false);
+        },1000);
     }
 
     const removeUser = (user: IVal) => {
@@ -55,7 +61,12 @@ function App() {
                 filter={filter} 
                 setFilter={setFilter}
             />
-            <UserList remove={removeUser} users={sortedAndSearchedUsers} title='List users:'/>
+            {isUsersLoading
+                // ? <h1>Loading...</h1>
+                ? <div style={{display:'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
+                : <UserList remove={removeUser} users={sortedAndSearchedUsers} title='List users:'/>
+            }
+            
         </div>
     );
 }
