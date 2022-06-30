@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import UserService from "./API/UserService";
 import PButton from "./components/UI/button/PButton";
 import PModal from "./components/UI/PModal/PModal";
 import UserAddForm from "./components/UserAddForm";
@@ -30,9 +31,9 @@ function App() {
     }
 
     async function fetchUsers(){
-        const response = await axios.get('https://jsonplaceholder.typicode.com/users');
+        const users = await UserService.getAll();
         // console.log(response.data);
-        setUsers(response.data);
+        setUsers(users);
     }
 
     const removeUser = (user: IVal) => {
