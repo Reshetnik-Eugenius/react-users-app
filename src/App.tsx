@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import PButton from "./components/UI/button/PButton";
 import PModal from "./components/UI/PModal/PModal";
 import UserAddForm from "./components/UserAddForm";
@@ -18,6 +18,11 @@ function App() {
     const [filter, setFilter] = useState({sort:'', query:''}) 
     const [modal, setModal] = useState(false);
     const sortedAndSearchedUsers = useUsers(users, filter.sort, filter.query);
+
+    useEffect(() => { 
+        // console.log('useEffect');
+        fetchUsers();
+    },[])
 
     const createUser = (newUser: IVal) => {
         setUsers([...users, newUser])
