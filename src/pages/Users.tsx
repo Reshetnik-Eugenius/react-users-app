@@ -7,6 +7,7 @@ import PModal from "../components/UI/PModal/PModal";
 import UserAddForm from "../components/UserAddForm";
 import UserFilter from "../components/UserFilter";
 import UserList from "../components/UserList";
+// import { useFetching } from "../hooks/useFetching";
 import { useUsers } from "../hooks/useUser";
 import { getPageCount } from "../utils/pages";
 
@@ -24,28 +25,24 @@ function Users() {
     const [limit, setLimit] = useState(3);
     const [page, setPage] = useState(1);
     const sortedAndSearchedUsers = useUsers(users, filter.sort, filter.query);
-    const [isUsersLoading, setIsUsersLoading] = useState(false);
+    // const [isUsersLoading, setIsUsersLoading] = useState(false);
+    // const [fetchUsers, isUsersLoading, userError] = useFetching(async () => {
+    //     const response = await UserService.getAll(limit, page);
+    //     // console.log(response.data);
+    //     setUsers(response.data);
+    //     const totalCount = response.headers['x-total-count'];
+    //     setTotalPages(getPageCount(Number(totalCount), limit));
+    // })
 
-    useEffect(() => { 
-        // console.log('useEffect');
-        fetchUsers();
-    },[page])
+    // useEffect(() => { 
+    //     // console.log('useEffect');
+    //     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+    //     fetchUsers;
+    // },[page])
 
     const createUser = (newUser: IVal) => {
         setUsers([...users, newUser])
         setModal(false);
-    }
-
-    async function fetchUsers(){
-        setIsUsersLoading(true);
-        setTimeout(async() => {
-            const response = await UserService.getAll(limit, page);
-            // console.log(response.data);
-            setUsers(response.data);
-            const totalCount = response.headers['x-total-count'];
-            setTotalPages(getPageCount(Number(totalCount), limit));
-            setIsUsersLoading(false);
-        },1000);
     }
 
     const removeUser = (user: IVal) => {
@@ -58,7 +55,7 @@ function Users() {
 
     return (
         <div className="App">
-            <button onClick={fetchUsers}>GET USERS</button>
+            {/* <button onClick={fetchUsers}>GET USERS</button> */}
             <PButton style={{marginTop: 30}} onClick={() => setModal(true)}>
                 ADD USER
             </PButton>
@@ -71,11 +68,11 @@ function Users() {
                 filter={filter} 
                 setFilter={setFilter}
             />
-            {isUsersLoading
+            {/* {isUsersLoading
                 // ? <h1>Loading...</h1>
                 ? <div style={{display:'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
                 : <UserList remove={removeUser} users={sortedAndSearchedUsers} title='List users:'/>
-            }
+            } */}
             <Pagination 
                 page={page} 
                 changePage={changePage} 

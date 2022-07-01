@@ -24,6 +24,10 @@
     margin-top: 15px;
 }
 
+.user__btns {
+    display: flex;
+}
+
 .user-enter {
     opacity: 0;
 }
