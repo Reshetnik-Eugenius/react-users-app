@@ -1,5 +1,5 @@
 import React from "react";
-import { IVal } from "../App";
+import { IVal } from "../pages/Users";
 import UserItem from "./UserItem";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
