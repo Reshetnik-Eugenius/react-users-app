@@ -7,6 +7,7 @@ import PModal from "../components/UI/PModal/PModal";
 import UserAddForm from "../components/UserAddForm";
 import UserFilter from "../components/UserFilter";
 import UserList from "../components/UserList";
+import { useFetching } from "../hooks/useFetching";
 import { useUsers } from "../hooks/useUser";
 import { getPageCount } from "../utils/pages";
 
@@ -15,7 +16,7 @@ export interface IVal {
     name: string; 
     email: string;
 }
-
+const API_URL = 'https://jsonplaceholder.typicode.com/users';
 function Users() {
     const [users, setUsers] = useState<IVal[]>([]);
     const [filter, setFilter] = useState({sort:'', query:''}) 
@@ -24,28 +25,21 @@ function Users() {
     const [limit, setLimit] = useState(3);
     const [page, setPage] = useState(1);
     const sortedAndSearchedUsers = useUsers(users, filter.sort, filter.query);
-    const [isUsersLoading, setIsUsersLoading] = useState(false);
+    const [fetchUsers, isUsersLoading, error] = useFetching(async () => {
+        const response = await UserService.getAll(limit, page);
+        // console.log(response.data);
+        setUsers(response.data);
+        const totalCount = response.headers['x-total-count'];
+        setTotalPages(getPageCount(Number(totalCount), limit));
+    })
 
-    useEffect(() => { 
-        // console.log('useEffect');
+    useEffect(() => {  
         fetchUsers();
-    },[page])
+      }, [page]);
 
     const createUser = (newUser: IVal) => {
         setUsers([...users, newUser])
         setModal(false);
-    }
-
-    async function fetchUsers(){
-        setIsUsersLoading(true);
-        setTimeout(async() => {
-            const response = await UserService.getAll(limit, page);
-            // console.log(response.data);
-            setUsers(response.data);
-            const totalCount = response.headers['x-total-count'];
-            setTotalPages(getPageCount(Number(totalCount), limit));
-            setIsUsersLoading(false);
-        },1000);
     }
 
     const removeUser = (user: IVal) => {
@@ -71,6 +65,7 @@ function Users() {
                 filter={filter} 
                 setFilter={setFilter}
             />
+
             {isUsersLoading
                 // ? <h1>Loading...</h1>
                 ? <div style={{display:'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
