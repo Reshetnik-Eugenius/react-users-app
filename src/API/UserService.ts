@@ -15,4 +15,9 @@ export default class UserService {
         const response = await axios.get('https://jsonplaceholder.typicode.com/users/' + id);
         return response;
     }
+
+    static async getPostsByUserId(id: number) {
+        const response = await axios.get(`https://jsonplaceholder.typicode.com/users/${id}/posts`);
+        return response;
+    }
 }
