@@ -71,6 +71,8 @@ function Users() {
                 ? <div style={{display:'flex', justifyContent: 'center', marginTop: 50}}><Loader/></div>
                 : <UserList remove={removeUser} users={sortedAndSearchedUsers} title='List users:'/>
             }
+            {error && <h1 style={{display:'flex', justifyContent: 'center', color:'red'}}>Error message: {error}</h1>}
+            
             <Pagination 
                 page={page} 
                 changePage={changePage} 

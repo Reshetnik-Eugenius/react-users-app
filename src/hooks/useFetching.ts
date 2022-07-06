@@ -1,6 +1,8 @@
 import { useState } from "react";
 
-export const useFetching = (callback: { (): Promise<void>; (): any; }) => {
+// export const useFetching = (callback: { (): Promise<void>; (): any; }) => {
+    // export const useFetching = (callback: (id:) => Promise<void>) => {
+    export const useFetching = (callback: { (): Promise<void> }) => {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -10,6 +12,7 @@ export const useFetching = (callback: { (): Promise<void>; (): any; }) => {
             await callback();
         } catch(e: any) {
             setError(e.message);
+            console.error('Ошибка: ', error);
         } finally {
             setIsLoading(false);
         }
