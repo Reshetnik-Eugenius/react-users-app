@@ -41,7 +41,7 @@ const UserIdPage = () => {
                 ?   <Loader/>
                 :   <div>
                         {posts?.map(postItem =>
-                            <div style={{marginTop: 15}}>
+                            <div key={postItem.id} style={{marginTop: 15}}>
                                 <h1>{postItem.title}</h1>
                                 <div>{postItem.body}</div>
                             </div>
