@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { SetStateAction, useEffect, useState } from "react";
 import UserService from "../API/UserService";
 import PButton from "../components/UI/button/PButton";
 import Loader from "../components/UI/Loader/Loader";
 import Pagination from "../components/UI/pagination/pagination";
 import PModal from "../components/UI/PModal/PModal";
+import PSelect from "../components/UI/select/PSelect";
 import UserAddForm from "../components/UserAddForm";
 import UserFilter from "../components/UserFilter";
 import UserList from "../components/UserList";
@@ -35,7 +36,7 @@ function Users() {
 
     useEffect(() => {  
         fetchUsers();
-      }, [page]);
+      }, [page, limit]);
 
     const createUser = (newUser: IVal) => {
         setUsers([...users, newUser])
@@ -65,6 +66,17 @@ function Users() {
                 filter={filter} 
                 setFilter={setFilter}
             />
+
+            <PSelect 
+                value={limit}
+                onChange={(value: SetStateAction<number>) => setLimit(value)}
+                defaultValue="Count element to page"
+                options={[
+                    {value: 3, name: '3'},
+                    {value: 5, name: '5'},
+                    {value: 10, name: '10'},
+                    {value: -1, name: 'all'},
+                ]}/>
 
             {isUsersLoading
                 // ? <h1>Loading...</h1>
